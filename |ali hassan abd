@@ -1,0 +1,29 @@
+import time
+
+# Monoalphabetic cipher key (substitution based on QWERTY layout)
+encrypt_key = dict(zip("abcdefghijklmnopqrstuvwxyz", "qwertyuiopasdfghjklzxcvbnm"))
+decrypt_key = {v: k for k, v in encrypt_key.items()}
+
+def mono_cipher(text, mode):
+    result = ""
+    for ch in text:
+        if ch.isalpha():
+            key = encrypt_key if mode == 'e' else decrypt_key
+            mapped = key.get(ch.lower(), ch)
+            result += mapped.upper() if ch.isupper() else mapped
+        else:
+            result += ch  # Keep non-alphabetic characters unchanged
+    return result
+
+# User input
+mode = input("Choose mode - Encrypt (e) or Decrypt (d): ").strip().lower()
+text = input("Enter the text: ")
+
+# Time the operation
+start = time.perf_counter()
+result = mono_cipher(text, mode)
+end = time.perf_counter()
+
+# Output
+print("Result:", result)
+print(f"Time taken: {end - start:.8f} seconds")
